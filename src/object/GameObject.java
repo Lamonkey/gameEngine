@@ -21,7 +21,7 @@ public abstract class GameObject implements Serializable {
 	public float x;// horizontal location of rectangle
 	float y;// vertical location of rectangle
 	int xspeed;// xspeed of rectangle
-	int yspeed;// yspeed of rectangle
+    int yspeed;// yspeed of rectangle
 	public float width; // width of rectangle
 	public float height; // length of rectangle
 	// PApplet parent; // the parent PApplet that will render the rectangles

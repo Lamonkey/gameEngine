@@ -18,6 +18,7 @@ import object.GameObject;
 import object.Rectangles;
 import object.Squares;
 import processing.core.PApplet;
+import scriptManager.ScriptManager;
 
 /**
  * @author jianllin This is the gameServer class
@@ -126,6 +127,7 @@ public class GameServerE extends PApplet {
 
 		switch (event.getType()) {
 		case TYPE_COLLISION:
+			
 			event.Collision();
 			break;
 		case TYPE_DEATH:
@@ -137,7 +139,12 @@ public class GameServerE extends PApplet {
 			gameObjects.get(7).spawn();
 			break;
 		case TYPE_JUMP:
-			event.jump();
+			//event.jump();
+			
+			ScriptManager.loadScript("src/Events/jump.js");
+			ScriptManager.bindArgument("gameObject", event.goA);
+			ScriptManager.executeScript();
+	
 			break;
 		case TYPE_LEFT:
 			event.left();
@@ -240,7 +247,7 @@ public class GameServerE extends PApplet {
 		double expectTime = timeLine.singleStep(frameRate);
 		double physicalF = timeLine.singleStep(phy);
 		List<GameObject> gameObjectTemp = gameObjects;
-
+		
 		while (true) {
 			//increase the loop iteration
 			timeLine.increamnetLoop();
