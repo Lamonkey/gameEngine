@@ -1,19 +1,13 @@
 package object;
 
 import java.awt.Rectangle;
-import java.io.Serializable;
 
 
 
-@SuppressWarnings("serial")
-public abstract class GameObject implements Serializable {
-	/**
-	 * 
-	 */
-	// private static final long serialVersionUID = 6200505798919978947L;
-	/**
-	 * 
-	 */
+
+
+public abstract class GameObject {
+	boolean isAlive = true;
 	boolean cliable;
 	int speed;// speed of rectangle
 	int gravity = 10;
@@ -33,7 +27,24 @@ public abstract class GameObject implements Serializable {
 	private int rangy = 1080;
 	private float or_x = 1400; 
 	private float or_y = 500;
+	public float getX() {
+		return this.x;
+	}
+	
+	public void addToX(int x) {
+		this.x += x;
+	}
+	public void AddToY(int y) {
+		this.y += y;
+	}
+	public boolean checkLife() {
+		return isAlive;
+	}
+	public void kill() {
+		isAlive = false;
+	}
 	public void spawn() {
+		isAlive = true;
 		this.x = or_x;
 		this.y = or_y;
 	}
@@ -252,8 +263,7 @@ public abstract class GameObject implements Serializable {
 	 * move the object
 	 */
 	public void move() {
-		x += xspeed;
-		y += yspeed;
+	
 		// y += speed;
 
 		// space to jump;
@@ -328,21 +338,9 @@ public abstract class GameObject implements Serializable {
 		this.collusion += 1;
 	}
 
-	/**
-	 * move to right direction
-	 */
-	public void right() {
-		xspeed = Math.abs(xspeed);
-		// xspeed *= -1;
-	}
+	
 
-	/**
-	 * move to left of the direction
-	 */
-	public void left() {
-		xspeed = Math.abs(xspeed) * -1;
-		// xspeed *= -1;
-	}
+	
 
 	/**
 	 * detect landing return true if landed, false not landed

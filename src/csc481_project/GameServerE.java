@@ -25,10 +25,10 @@ import scriptManager.ScriptManager;
  * Event handler used some codes of from textbook 945
  */
 public class GameServerE extends PApplet {
-
+	//list of dead object
+	static ArrayList<GameObject> deadObject = new ArrayList<GameObject>();
 	// status of replay
 	static boolean replay = false;
-
 	// the priority of event h is high priority
 	private static final long H_PRIORITY = 1;
 	// the priority of event m is mid priority
@@ -131,7 +131,10 @@ public class GameServerE extends PApplet {
 			event.Collision();
 			break;
 		case TYPE_DEATH:
-			event.death();
+			ScriptManager.loadScript("src/Events/death.js");
+			ScriptManager.bindArgument("gameObject", event.goA);
+			ScriptManager.executeScript();
+			
 			break;
 		case TYPE_SPAWN:
 			gameObjects.get(5).spawn();
@@ -147,10 +150,14 @@ public class GameServerE extends PApplet {
 	
 			break;
 		case TYPE_LEFT:
-			event.left();
+			ScriptManager.loadScript("src/Events/left.js");
+			ScriptManager.bindArgument("gameObject", event.goA);
+			ScriptManager.executeScript();
 			break;
 		case TYPE_RIGHT:
-			event.right();
+			ScriptManager.loadScript("src/Events/right.js");
+			ScriptManager.bindArgument("gameObject", event.goA);
+			ScriptManager.executeScript();
 			break;
 		case TYPE_REPLAY:
 
@@ -176,31 +183,8 @@ public class GameServerE extends PApplet {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see processing.core.PApplet#settings()
-	 */
-	public void settings() {
-		size(1920, 1080);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see processing.core.PApplet#setup()
-	 */
-	public void setup() {
-		// Initialize rectangles
-		smooth();
-		noStroke();
-		// background(0);
-
-		// rectangles2 = new Rectangles(this);
-
-		// set location
-
-	}
+	
+	
 
 	/**
 	 * detect collision between two object
@@ -246,7 +230,7 @@ public class GameServerE extends PApplet {
 		int phy = 20;
 		double expectTime = timeLine.singleStep(frameRate);
 		double physicalF = timeLine.singleStep(phy);
-		List<GameObject> gameObjectTemp = gameObjects;
+		
 		
 		while (true) {
 			//increase the loop iteration
@@ -261,8 +245,15 @@ public class GameServerE extends PApplet {
 				// update object in gameObject
 				expectTime = timeLine.singleStep(frameRate);
 				synchronized (monitor) {
-					for (GameObject go : gameObjectTemp) {
-						go.move();
+					for (int i = 0; i < gameObjects.size(); ) {
+						if(gameObjects.get(i).checkLife()) {
+							gameObjects.get(i).move();
+							i++;
+						}
+						else {
+							gameObjects.remove(i);
+						}
+						
 
 					}
 				}
@@ -276,15 +267,15 @@ public class GameServerE extends PApplet {
 			if (physicalF <= timeLine.m_timeCycles) {
 				physicalF = timeLine.singleStep(phy);
 				synchronized (monitor) {
-					collsion(gameObjectTemp.get(5), gameObjectTemp.get(7));
-					collsion(gameObjectTemp.get(5), gameObjectTemp.get(6));
-					collsion(gameObjectTemp.get(6), gameObjectTemp.get(7));
+					collsion(gameObjects.get(5), gameObjects.get(7));
+					collsion(gameObjects.get(5), gameObjects.get(6));
+					collsion(gameObjects.get(6), gameObjects.get(7));
 
 					for (int i = 5; i < 8; i++) {
 						// collision between player object
 						for (int k = 0; k < 5; k++)
 
-							collsion(gameObjectTemp.get(i), gameObjectTemp.get(k));
+							collsion(gameObjects.get(i), gameObjects.get(k));
 
 					}
 				}

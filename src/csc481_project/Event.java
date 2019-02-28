@@ -75,12 +75,7 @@ public class Event implements Serializable {
 
 	}
 
-	/**
-	 * death event handler
-	 */
-	public void death() {
-		goA.spawn();
-	}
+
 
 	/**
 	 * jump event handler
@@ -89,20 +84,8 @@ public class Event implements Serializable {
 		goA.jump();
 	}
 
-	/**
-	 * user input handler
-	 */
-	public void left() {
-		goA.left();
-	}
 
-	/**
-	 * user input handler
-	 */
-	public void right() {
-		goA.right();
-	}
-
+	
 	/**
 	 * user input handler
 	 */
