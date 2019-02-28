@@ -238,7 +238,15 @@ public abstract class GameObject implements Serializable {
 			landed = false;
 		}
 	}
-
+	public void setYspeed(int num) {
+		yspeed = num;
+	}
+	public void setJump(boolean flag) {
+		jump = true;
+	}
+	public void setLand(boolean flag) {
+		landed = false;
+	}
 	// Move stripe
 	/**
 	 * move the object

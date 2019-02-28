@@ -1,9 +1,9 @@
 function update(){
     if (gameObject.onTheGround()) {
-			gameObject.yspeed = -100;
+			gameObject.setYspeed(-100);
 		} else {
-			gameObject.jump = true;
-			gameObject.landed = false;
+			gameObject.setJump(true);
+			gameObject.setLanded(false);
 		}
    // gameObject.jump();
 }
